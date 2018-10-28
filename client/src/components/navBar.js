@@ -36,7 +36,7 @@ class AppNavbar extends Component {
                   </NavLink>
                 </NavItem>
                 <NavItem>
-                  <NavLink href="#">Favourite</NavLink>
+                  <NavLink href="/saved">Favourite</NavLink>
                 </NavItem>
               </Nav>
             </Collapse>

@@ -1,37 +1,32 @@
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+
 
 //Create Schema
 const ItemSchema = mongoose.Schema({
   title: {
-    type: String,
-    required: true
+    type: String
   },
 
   link: {
-    type: String,
-    required: true
+    type: String
+   
   },
 
   image: {
-    type: String,
-    required: true
+    type: String
   },
 
   releaseDate: {
-    type: String,
-    required: true
+    type: String
   },
 
   originalPrice: {
-    type: String,
-    required: true
+    type: String
   },
 
   ratings: {
-    type: String,
-    required: true
+    type: String
   }
 });
-
-module.exports = Item = mongoose.model('item', ItemSchema);
+const Item = mongoose.model('Item', ItemSchema, "Saved Items");
+module.exports = Item;

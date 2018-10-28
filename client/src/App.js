@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';//import Game from './components/game';
-//import Favourites from './components/Favourites';
-
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import AppNavBar from './components/navBar';
-import Home from './components/Home';
-// import News from './components/footer';
+import Game from './components/Game/Game';
+import SaveGame from './components/SavedGame/SavedGame';
 // import About from './components/body';
 
 import axios from 'axios';
@@ -17,7 +15,8 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      games: []
+      games: [],
+      saved:[]
     };
   }
 
@@ -32,23 +31,31 @@ class App extends Component {
       .catch(error => {
         alert(error);
       });
-  }
-
-  handleSubmit(gameData) {
-    console.log(gameData);
-    axios
-      .post('http://localhost:5000/getfavourite')
-      .then(res => {
-        alert('Saved');
+      axios
+      .get('http://localhost:5000/getsavedgames')
+      .then(response => {
+        this.setState({
+          saved: response.data
+        });
       })
       .catch(error => {
         alert(error);
       });
   }
 
+  handleSubmit(gameData) {
+    console.log(gameData);
+    axios
+      .post('http://localhost:5000/getsavedgames',gameData)
+      .catch(error => {
+        alert('Saved');
+      });
+  }
+
   handleDelete(title) {
     console.log(title);
-    axios.post('http://localhost:5000/getfavourite/delete').catch(error => {
+    axios.post('http://localhost:5000/getsavedgames/delete',title)
+    .catch(error => {
       window.location.reload();
     });
   }
@@ -62,11 +69,15 @@ class App extends Component {
             exact
             path="/"
             render={() => (
-              <Home item={this.state.games} onClick={this.handleSubmit} />
+              <Game item={this.state.games} onClick={this.handleSubmit} />
             )}
           />
-          {/* <Route path="/about" component={About} />
-        <Route path="/news" component={News} /> */}
+          <Route
+            path="/saved"
+            render={() => (
+              <SaveGame item={this.state.saved} onClick={this.handleDelete} />
+            )}
+          />
         </div>
       </Router>
     );
